@@ -6,17 +6,26 @@ using PriceNegotiationApp.Services.Interfaces;
 
 namespace PriceNegotiationApp.Services.Impl
 {
+    /// <summary>
+    /// Service implementation for managing product-related operations.
+    /// </summary>
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductService"/> class.
+        /// </summary>
+        /// <param name="productRepository">The product repository.</param>
+        /// <param name="mapper">The AutoMapper instance.</param>
         public ProductService(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
         }
 
+        /// <inheritdoc />
         public async Task<ProductDto> CreateProductAsync(CreateProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
@@ -42,12 +51,11 @@ namespace PriceNegotiationApp.Services.Impl
             }
             
             var createdProduct = await _productRepository.CreateProductAsync(product);
-            
             var createdProductDto = _mapper.Map<ProductDto>(createdProduct);
-
             return createdProductDto;
         }
 
+        /// <inheritdoc />
         public async Task DeleteProductAsync(Guid productId)
         {
             var product = await _productRepository.GetProductByIdAsync(productId);
@@ -59,25 +67,25 @@ namespace PriceNegotiationApp.Services.Impl
             await _productRepository.DeleteProductAsync(productId);
         }
 
+        /// <inheritdoc />
         public async Task<ProductDto?> GetProductByIdAsync(Guid productId)
         {
             var getProduct = await _productRepository.GetProductByIdAsync(productId);
-            var getProductDto = _mapper.Map<ProductDto?>(getProduct);
-            return getProductDto;
+            return _mapper.Map<ProductDto?>(getProduct);
         }
 
+        /// <inheritdoc />
         public async Task<ProductDto?> GetProductByNameAsync(string name)
         {
             var getProduct = await _productRepository.GetProductByNameAsync(name);
-            var getProductDto = _mapper.Map<ProductDto?>(getProduct);
-            return getProductDto;
+            return _mapper.Map<ProductDto?>(getProduct);
         }
 
+        /// <inheritdoc />
         public async Task<List<ProductDto>> GetProductsAsync()
         {
             var getProducts = await _productRepository.GetProductsAsync();
-            var getProductsDto = _mapper.Map<List<ProductDto>>(getProducts);
-            return getProductsDto;
+            return _mapper.Map<List<ProductDto>>(getProducts);
         }
     }
 }

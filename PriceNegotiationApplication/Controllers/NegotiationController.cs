@@ -1,20 +1,33 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PriceNegotiationApp.DTOs;
 using PriceNegotiationApp.Services.Interfaces;
 
 namespace PriceNegotiationApp.Controllers;
 
+/// <summary>
+/// Handles negotiation-related requests, such as starting, accepting, and rejecting price negotiations.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class NegotiationController : Controller
 {
     private readonly INegotiationService _negotiationService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NegotiationController"/> class.
+    /// </summary>
+    /// <param name="negotiationService">The negotiation service interface.</param>
     public NegotiationController(INegotiationService negotiationService)
     {
         _negotiationService = negotiationService;
     }
 
+    /// <summary>
+    /// Starts a negotiation between the buyer and seller.
+    /// </summary>
+    /// <param name="negotiationDto">The data for starting the negotiation.</param>
+    /// <returns>Returns a 200 status code if the negotiation is successfully started.</returns>
     [HttpPost]
     public async Task<IActionResult> StartNegotiation([FromBody] StartNegotiationDto negotiationDto)
     {
@@ -33,6 +46,11 @@ public class NegotiationController : Controller
         }
     }
 
+    /// <summary>
+    /// Retrieves a negotiation by its unique identifier.
+    /// </summary>
+    /// <param name="negotiationId">The unique identifier of the negotiation.</param>
+    /// <returns>Returns the negotiation if found.</returns>
     [HttpGet("{negotiationId:guid}")]
     public async Task<IActionResult> GetNegotiationByIdAsync(Guid negotiationId)
     {
@@ -48,6 +66,12 @@ public class NegotiationController : Controller
         }        
     }
 
+    /// <summary>
+    /// Proposes a price during an ongoing negotiation.
+    /// </summary>
+    /// <param name="negotiationId">The unique identifier of the negotiation.</param>
+    /// <param name="proposalDto">The price proposal to be submitted.</param>
+    /// <returns>Returns a message indicating if the proposal was submitted successfully.</returns>
     [HttpPost("propose/{negotiationId:guid}")]
     public async Task<IActionResult> ProposePriceAsync(Guid negotiationId,
         [FromBody] CreatePriceProposalDto proposalDto)
@@ -64,6 +88,11 @@ public class NegotiationController : Controller
         }
     }
 
+    /// <summary>
+    /// Accepts a price proposal during a negotiation.
+    /// </summary>
+    /// <param name="negotiationId">The unique identifier of the negotiation.</param>
+    /// <returns>Returns a message indicating if the proposal was accepted successfully.</returns>
     [Authorize]
     [HttpPost("accept/{negotiationId:guid}")]
     public async Task<IActionResult> AcceptProposalAsync(Guid negotiationId)
@@ -79,6 +108,12 @@ public class NegotiationController : Controller
         }
     }
 
+    
+    /// <summary>
+    /// Rejects a price proposal during a negotiation.
+    /// </summary>
+    /// <param name="negotiationId">The unique identifier of the negotiation.</param>
+    /// <returns>Returns a message indicating if the proposal was rejected successfully.</returns>
     [Authorize]
     [HttpPost("reject/{negotiationId:guid}")]
     public async Task<IActionResult> RejectProposalAsync(Guid negotiationId)
@@ -94,6 +129,11 @@ public class NegotiationController : Controller
         }
     }
 
+    /// <summary>
+    /// Deletes a negotiation by its unique identifier.
+    /// </summary>
+    /// <param name="negotiationId">The unique identifier of the negotiation.</param>
+    /// <returns>Returns a message indicating if the negotiation was deleted successfully.</returns>
     [Authorize]
     [HttpDelete("{negotiationId:guid}")]
     public async Task<IActionResult> DeleteNegotiationAsync(Guid negotiationId)

@@ -5,17 +5,30 @@ using PriceNegotiationApp.Services.Interfaces;
 
 namespace PriceNegotiationApp.Controllers;
 
+/// <summary>
+/// Handles authentication-related requests, including login and registration.
+/// </summary>
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AuthController"/> class.
+    /// </summary>
+    /// <param name="authService">The authentication service interface.</param>
     public AuthController(IAuthService authService)
     {
         _authService = authService;
     }
 
+    
+    /// <summary>
+    /// Registers a new user in the system.
+    /// </summary>
+    /// <param name="registerDto">The registration data for the user.</param>
+    /// <returns>Returns a 200 status code if registration is successful, 400 for bad request.</returns>
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
@@ -27,6 +40,12 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
+    
+    /// <summary>
+    /// Authenticates a user and returns a JWT token.
+    /// </summary>
+    /// <param name="loginDto">The login credentials of the user.</param>
+    /// <returns>Returns the JWT token for the user if authentication is successful, 401 for unauthorized.</returns>
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
@@ -37,21 +56,4 @@ public class AuthController : ControllerBase
         }
         return Ok(new {token});
     }
-    
-    [Authorize]
-    [HttpGet("test")]
-    public IActionResult TestAuth()
-    {
-        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        
-        var userId = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-        
-        return Ok(new 
-        { 
-            message = "Authorized successfully!", 
-            userId,
-            claims
-        });
-    }
-    
 }

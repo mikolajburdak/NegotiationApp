@@ -1,12 +1,27 @@
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-public class CreateProductDto
+namespace PriceNegotiationApp.DTOs
 {
-    [Required]
-    [MaxLength(100)]
-    public string Name { get; set; } = string.Empty;
+    /// <summary>
+    /// Data transfer object for creating a new product.
+    /// </summary>
+    public class CreateProductDto
+    {
+        /// <summary>
+        /// The name of the product.
+        /// </summary>
+        [Required]
+        [MaxLength(100)]
+        [SwaggerParameter(Description = "The name of the product. Must be a non-empty string with a maximum length of 100 characters.")]
+        public string Name { get; set; } = string.Empty;
 
-    [Required]
-    [Range(0.01, double.MaxValue)]
-    public decimal Price { get; set; }
+        /// <summary>
+        /// The price of the product.
+        /// </summary>
+        [Required]
+        [Range(0.01, double.MaxValue)]
+        [SwaggerParameter(Description = "The price of the product. Must be a positive number greater than 0.")]
+        public decimal Price { get; set; }
+    }
 }

@@ -7,12 +7,21 @@ using PriceNegotiationApp.Services.Interfaces;
 
 namespace PriceNegotiationApp.Services.Impl;
 
+/// <summary>
+/// Service responsible for managing price negotiations.
+/// </summary>
 public class NegotiationService : INegotiationService
 {
     private readonly INegotiationRepository _negotiationRepository;
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NegotiationService"/> class.
+    /// </summary>
+    /// <param name="negotiationRepository">The negotiation repository interface.</param>
+    /// <param name="productRepository">The product repository interface.</param>
+    /// <param name="mapper">The AutoMapper instance used for object mapping.</param>
     public NegotiationService(INegotiationRepository negotiationRepository,IProductRepository productRepository, IMapper mapper)
     {
         _negotiationRepository = negotiationRepository;
@@ -20,6 +29,11 @@ public class NegotiationService : INegotiationService
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Starts a negotiation by ensuring that either ProductId or ProductName is provided.
+    /// </summary>
+    /// <param name="negotiationDto">The negotiation data transfer object.</param>
+    /// <exception cref="InvalidOperationException">Thrown if ProductId and ProductName are incompatible.</exception>
     public async Task StartNegotiationAsync(StartNegotiationDto negotiationDto)
     {
         
@@ -49,6 +63,12 @@ public class NegotiationService : INegotiationService
         await _negotiationRepository.StartNegotiationAsync(negotiation);
     }
 
+    /// <summary>
+    /// Proposes a new price for a negotiation.
+    /// </summary>
+    /// <param name="proposalDto">The price proposal data transfer object.</param>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the negotiation is not active or the proposal is invalid.</exception>
     public async Task ProposePriceAsync(CreatePriceProposalDto proposalDto, Guid negotiationId)
     {
         var negotiation = await _negotiationRepository.GetNegotiationWithProposalsAsync(negotiationId);
@@ -93,6 +113,12 @@ public class NegotiationService : INegotiationService
         await _negotiationRepository.UpdateNegotiationAsync(negotiation);
     }
 
+    
+    /// <summary>
+    /// Accepts the most recent price proposal and marks the negotiation as approved.
+    /// </summary>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the negotiation does not exist or is already resolved.</exception>
     public async Task AcceptNegotiationAsync(Guid negotiationId)
     {
         var negotiation = await _negotiationRepository.GetNegotiationWithProposalsAsync(negotiationId);
@@ -113,6 +139,11 @@ public class NegotiationService : INegotiationService
         await _negotiationRepository.UpdateNegotiationAsync(negotiation);
     }
 
+    /// <summary>
+    /// Rejects the most recent price proposal and marks the negotiation as rejected.
+    /// </summary>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the negotiation does not exist or is already resolved.</exception>
     public async Task RejectNegotiationAsync(Guid negotiationId)
     {
         var negotiation = await _negotiationRepository.GetNegotiationWithProposalsAsync(negotiationId);
@@ -138,11 +169,21 @@ public class NegotiationService : INegotiationService
         await _negotiationRepository.UpdateNegotiationAsync(negotiation);
     }
 
+    /// <summary>
+    /// Retrieves the current status of a negotiation.
+    /// </summary>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
+    /// <returns>The status of the negotiation.</returns>
     public async Task<NegotiationStatus> GetStatusAsync(Guid negotiationId)
     {
         return await _negotiationRepository.GetNegotiationStatusAsync(negotiationId);
     }
 
+    /// <summary>
+    /// Retrieves all price proposals for a specific negotiation.
+    /// </summary>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
+    /// <returns>A list of price proposals for the negotiation.</returns>
     public async Task<List<PriceProposalDto>> GetProposalsAsync(Guid negotiationId)
     {
         var getProposal = await _negotiationRepository.GetPriceProposalsListAsync(negotiationId);
@@ -151,6 +192,11 @@ public class NegotiationService : INegotiationService
         return getProposalsDto;
     }
 
+    /// <summary>
+    /// Retrieves a negotiation by its identifier.
+    /// </summary>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
+    /// <returns>The negotiation details.</returns>
     public async Task<NegotiationDto> GetNegotiationByIdAsync(Guid negotiationId)
     {
         var result = await _negotiationRepository.GetNegotiationByIdAsync(negotiationId);
@@ -158,6 +204,10 @@ public class NegotiationService : INegotiationService
         return negotiationDto;
     }
 
+    /// <summary>
+    /// Deletes a negotiation by its identifier.
+    /// </summary>
+    /// <param name="negotiationId">The identifier of the negotiation.</param>
     public async Task DeleteNegotiationAsync(Guid negotiationId)
     {
         await _negotiationRepository.DeleteNegotiationAsync(negotiationId);

@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -29,18 +30,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .WithExposedHeaders("Authorization"); 
-    });
-});
 
 builder.Services.AddCors(options =>
 {
@@ -86,43 +75,6 @@ builder.Services.AddAuthentication(options =>
 })
     .AddJwtBearer(options =>
     {
-        options.IncludeErrorDetails = true;
-        
-        // Important for CORS - do not require authentication for OPTIONS (preflight request)
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                return Task.CompletedTask;
-            },
-            OnTokenValidated = context => 
-            {                
-                // Handle claims identity and ensure NameIdentifier claim is present
-                if (context.Principal?.Identity is ClaimsIdentity identity)
-                {                    
-                    var nameIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-                    if (nameIdClaim == null)
-                    {
-                        var altClaim = identity.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-                        if (altClaim != null)
-                        {
-                            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, altClaim.Value));
-                        }
-                    }
-                }
-                
-                return Task.CompletedTask; 
-            },
-            OnAuthenticationFailed = context => 
-            {
-                return Task.CompletedTask;
-            },
-            OnChallenge = context => 
-            {
-                return Task.CompletedTask;
-            }
-        };
-        
         // Configure JWT token validation parameters
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -153,7 +105,12 @@ builder.Services.AddLogging(logging =>
 // Configure Swagger for API documentation
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ContactsApp API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PriceNegotiationApp API", Version = "v1" });
+    // Enabling XML comments for Swagger documentation
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    
     c.EnableAnnotations();
 
     // Configure Swagger to support JWT authentication

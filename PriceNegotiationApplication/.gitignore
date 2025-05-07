@@ -52,3 +52,9 @@ secrets.json
 *.snupkg
 
 *.DotSettings.user
+
+# Ignore IntelliJ IDEA's database configuration
+.idea/dataSources.xml
+
+# Ignore VCS configuration files used by IDEs
+.idea/vcs.xml
