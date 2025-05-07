@@ -6,16 +6,16 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.Data;
 using PriceNegotiationApp.DTOs;
-using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Tests.InMemoryDb;
+using Xunit.Abstractions;
 
 namespace PriceNegotiationApp.Tests.IntegrationTests;
 
 public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
 {
     private readonly HttpClient _client;
+
 
     public ProductApiTest(CustomWebApplicationFactory factory)
     {
@@ -31,11 +31,11 @@ public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
             Price = 99.99m
         };
         
-        var token = await GetJwtTokenAsync(); // Metoda pomocnicza do uzyskania tokenu JWT
+        var token = await GetJwtTokenAsync(); 
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        var response = await _client.PostAsJsonAsync("/api/products", newProduct);
+        var response = await _client.PostAsJsonAsync("/api/product", newProduct);
         
         response.EnsureSuccessStatusCode();
         var product = await response.Content.ReadFromJsonAsync<ProductDto>();
@@ -51,16 +51,13 @@ public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task GetProductById_ShouldReturnProduct()
     {
-        var newProduct = new CreateProductDto()
-        {
-            Name = "Test Product",
-            Price = 99.99m
-        };
-        var createResponse = await _client.PostAsJsonAsync("api/products", newProduct);
-        var createdProduct = await createResponse.Content.ReadFromJsonAsync<ProductDto>();
+        var productId = await CreateTestProductAsync();
+        _client.DefaultRequestHeaders.Authorization = null;
         
-        Assert.NotNull(createdProduct);
-        var response = await _client.GetAsync($"/api/products/{createdProduct.Id}");
+        var response = await _client.GetAsync($"/api/product/{productId}");
+        Assert.NotNull(response);
+
+        
         response.EnsureSuccessStatusCode();
         
         var product = await response.Content.ReadFromJsonAsync<ProductDto>();
@@ -71,33 +68,48 @@ public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task DeleteProduct_ShouldDeleteProduct()
     {
-        var newProduct = new CreateProductDto()
-        {
-            Name = "Test Product",
-            Price = 99.99m
-        };
-        var createResponse = await _client.PostAsJsonAsync("/api/products", newProduct);
-        var createdProduct = await createResponse.Content.ReadFromJsonAsync<ProductDto>();
+        
+        var productId = await CreateTestProductAsync();
         
         var token = await GetJwtTokenAsync();
         
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         
-        Assert.NotNull(createdProduct);
-        var response = await _client.DeleteAsync($"/api/products/{createdProduct.Id}");
+        var response = await _client.DeleteAsync($"/api/product/{productId}");
         response.EnsureSuccessStatusCode();
-
-        var product = await response.Content.ReadFromJsonAsync<ProductDto>();
-        Assert.Null(product);
+        
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
     
+    private async Task<Guid> CreateTestProductAsync()
+    {
+        var token = await GetJwtTokenAsync();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var productDto = new CreateProductDto
+        {
+            Name = "Test Product",
+            Price = 123.99m
+        };
+
+        var response = await _client.PostAsJsonAsync("/api/product", productDto);
+        response.EnsureSuccessStatusCode();
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var created = JsonSerializer.Deserialize<ProductDto>(responseContent, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        return created.Id;
+    }
         
-    public async Task<string> GetJwtTokenAsync()
+    private async Task<string> GetJwtTokenAsync()
     {
         var loginDto = new LoginDto
         {
             Email = "testuser@email.com",
-            Password = "testpassword123!"
+            Password = "TestPassword123!"
         };
 
         var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
@@ -106,8 +118,9 @@ public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
         var responseContent = await loginResponse.Content.ReadAsStringAsync();
 
         var responseObject = JsonSerializer.Deserialize<JsonElement>(responseContent);
-        var token =  responseObject.GetProperty("access_token").GetString();
+
+        var token =  responseObject.GetProperty("token").GetString();
+        
         return token;
     }
-    
 }

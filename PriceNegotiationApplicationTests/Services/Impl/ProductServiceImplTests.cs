@@ -7,28 +7,27 @@ using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Repositories.Interfaces;
 using PriceNegotiationApp.Services.Impl;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace PriceNegotiationApp.Tests.Services.Impl;
 
 public class ProductServiceImplTests
 {
     private readonly Mock<IProductRepository> _productRepositoryMock;
-    private readonly IMapper _mapper;
+    private readonly Mock<IMapper> _mapperMock;
     private readonly ProductService _productService;
+    private readonly ITestOutputHelper _output; 
 
-    public ProductServiceImplTests()
+    public ProductServiceImplTests(ITestOutputHelper output)
     {
+        _output = output;
+        
         _productRepositoryMock = new Mock<IProductRepository>();
-
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<CreateProductDto, Product>();
-            cfg.CreateMap<Product, ProductDto>();
-        });
-        _mapper = config.CreateMapper();
-
-        _productService = new ProductService(_productRepositoryMock.Object, _mapper);
+        
+        _mapperMock = new Mock<IMapper>();
+        _productService = new ProductService(_productRepositoryMock.Object, _mapperMock.Object);
     }
+    
 
     [Fact]
     public async Task CreateProductAsync_ShouldCreateProduct_WhenValidDto()
@@ -70,13 +69,18 @@ public class ProductServiceImplTests
             Name = "Test Product",
             Price = 10.99m
         };
+        
         var existingProduct = new Product
         {
             Id = productId,
-            Name = createProductDto.Name,
-            Price = createProductDto.Price
+            Name = "Test Product",
+            Price = 10.99m
         };
-
+        
+        _mapperMock
+            .Setup(m => m.Map<Product>(createProductDto))
+            .Returns(existingProduct);
+        
         _productRepositoryMock
             .Setup(repo => repo.GetProductByIdAsync(productId))
             .ReturnsAsync(existingProduct);

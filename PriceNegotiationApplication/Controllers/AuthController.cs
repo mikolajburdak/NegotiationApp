@@ -6,7 +6,7 @@ using PriceNegotiationApp.Services.Interfaces;
 namespace PriceNegotiationApp.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
         var token = await _authService.LoginAsync(loginDto);
         if (token == null)
         {
-            Unauthorized();
+            return Unauthorized();
         }
         return Ok(new {token});
     }
