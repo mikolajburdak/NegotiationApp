@@ -1,0 +1,52 @@
+# .NET/C# backend
+## .NET Core
+bin/
+obj/
+Properties/launchSettings.json
+appsettings.Development.json
+appsettings.Production.json
+
+# Ignore compiled .NET files
+*.dll
+*.so
+*.pdb
+*.exe
+*.userprefs
+*.usertasks
+*.usercache
+*.vspscc
+*.vssscc
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Entity Framework migrations files (except the migrations themselves)
+Migrations/*Designer.cs
+Migrations/*Snapshot.cs
+
+# Rider IDE files
+.idea/
+
+# Logs
+logs/
+*.log
+
+# ASP.NET secrets
+secrets.json
+
+# Miscellaneous
+.DS_Store
+
+# Temporary files
+*.swp
+*.swo
+
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+
+*.DotSettings.user

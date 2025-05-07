@@ -1,0 +1,6 @@
+@PriceNegotiationApp_HostAddress = http://localhost:5238
+
+GET {{PriceNegotiationApp_HostAddress}}
+Accept: application/json
+
+###
