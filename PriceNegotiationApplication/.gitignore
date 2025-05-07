@@ -1,4 +1,6 @@
 # .NET/C# backend
+.github/
+
 ## .NET Core
 bin/
 obj/
