@@ -1,9 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PriceNegotiationApp.DTOs;
 using PriceNegotiationApp.Models;
@@ -72,5 +70,6 @@ public class AuthServiceImpl : IAuthService
         
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
     
 }
