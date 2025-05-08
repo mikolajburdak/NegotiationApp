@@ -31,18 +31,14 @@ namespace PriceNegotiationApp.Services.Impl
             var product = _mapper.Map<Product>(productDto);
             
             if (product.Id == Guid.Empty)
+            {
                 product.Id = Guid.NewGuid();
+            }
             
             var productExists = await _productRepository.GetProductByIdAsync(product.Id);
             if (productExists != null)
             {
                 throw new InvalidOperationException($"Product with id: {product.Id} already exists");
-            }
-
-            var productByName = await _productRepository.GetProductByNameAsync(product.Name);
-            if (productByName != null)
-            {
-                throw new InvalidOperationException($"Product with name: {product.Name} already exists");
             }
 
             if (productDto.Price <= 0)

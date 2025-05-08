@@ -6,9 +6,10 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using PriceNegotiationApp.Data;
 using PriceNegotiationApp.DTOs;
 using PriceNegotiationApp.Tests.InMemoryDb;
-using Xunit.Abstractions;
 
 namespace PriceNegotiationApp.Tests.IntegrationTests;
 
@@ -16,12 +17,10 @@ public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
 {
     private readonly HttpClient _client;
 
-
     public ProductApiTest(CustomWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
     }
-
     [Fact]
     public async Task PostProduct_ShouldCreateProduct()
     {
@@ -68,6 +67,7 @@ public class ProductApiTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task DeleteProduct_ShouldDeleteProduct()
     {
+        
         
         var productId = await CreateTestProductAsync();
         

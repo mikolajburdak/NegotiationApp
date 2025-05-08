@@ -1,6 +1,4 @@
 using PriceNegotiationApp.DTOs;
-using PriceNegotiationApp.Enums;
-using PriceNegotiationApp.Models;
 
 namespace PriceNegotiationApp.Services.Interfaces
 {

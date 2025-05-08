@@ -14,6 +14,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected  override void ConfigureWebHost(IWebHostBuilder builder)
     {
+ 
+
         builder.ConfigureServices(services =>
             {
                 var dbContextOptions = services
@@ -51,6 +53,11 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                     };
 
                     var result = userManager.CreateAsync(testUser, "TestPassword123!").Result;
+                    
+                    if (!result.Succeeded)
+                    {
+                        throw new InvalidOperationException("Test user creation failed.");
+                    }
                 }
             }
         );

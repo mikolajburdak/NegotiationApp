@@ -1,0 +1,981 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PriceNegotiationApp</name>
+    </assembly>
+    <members>
+        <member name="T:PriceNegotiationApp.AutoMapper.MappingProfile">
+            <summary>
+            Defines the AutoMapper configuration for the application's model-to-DTO mappings.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.AutoMapper.MappingProfile.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.AutoMapper.MappingProfile"/> class.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Controllers.AuthController">
+            <summary>
+            Handles authentication-related requests, including login and registration.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.AuthController.#ctor(PriceNegotiationApp.Services.Interfaces.IAuthService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Controllers.AuthController"/> class.
+            </summary>
+            <param name="authService">The authentication service interface.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.AuthController.Register(PriceNegotiationApp.DTOs.RegisterDto)">
+            <summary>
+            Registers a new user in the system.
+            </summary>
+            <param name="registerDto">The registration data for the user.</param>
+            <returns>Returns a 200 status code if registration is successful, 400 for bad request.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.AuthController.Login(PriceNegotiationApp.DTOs.LoginDto)">
+            <summary>
+            Authenticates a user and returns a JWT token.
+            </summary>
+            <param name="loginDto">The login credentials of the user.</param>
+            <returns>Returns the JWT token for the user if authentication is successful, 401 for unauthorized.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Controllers.NegotiationController">
+            <summary>
+            Handles negotiation-related requests, such as starting, accepting, and rejecting price negotiations.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.#ctor(PriceNegotiationApp.Services.Interfaces.INegotiationService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Controllers.NegotiationController"/> class.
+            </summary>
+            <param name="negotiationService">The negotiation service interface.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.StartNegotiation(PriceNegotiationApp.DTOs.StartNegotiationDto)">
+            <summary>
+            Starts a negotiation between the buyer and seller.
+            </summary>
+            <param name="negotiationDto">The data for starting the negotiation.</param>
+            <returns>Returns a 200 status code if the negotiation is successfully started.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.GetNegotiationByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a negotiation by its unique identifier.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>Returns the negotiation if found.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.ProposePriceAsync(System.Guid,PriceNegotiationApp.DTOs.CreatePriceProposalDto)">
+            <summary>
+            Proposes a price during an ongoing negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <param name="proposalDto">The price proposal to be submitted.</param>
+            <returns>Returns a message indicating if the proposal was submitted successfully.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.AcceptProposalAsync(System.Guid)">
+            <summary>
+            Accepts a price proposal during a negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>Returns a message indicating if the proposal was accepted successfully.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.RejectProposalAsync(System.Guid)">
+            <summary>
+            Rejects a price proposal during a negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>Returns a message indicating if the proposal was rejected successfully.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.NegotiationController.DeleteNegotiationAsync(System.Guid)">
+            <summary>
+            Deletes a negotiation by its unique identifier.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>Returns a message indicating if the negotiation was deleted successfully.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Controllers.ProductController">
+            <summary>
+            Handles product-related requests such as adding, deleting, and fetching products.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.ProductController.#ctor(PriceNegotiationApp.Services.Interfaces.IProductService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Controllers.ProductController"/> class.
+            </summary>
+            <param name="productService">The product service interface.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.ProductController.AddProductAsync(PriceNegotiationApp.DTOs.CreateProductDto)">
+            <summary>
+            Adds a new product to the system.
+            </summary>
+            <param name="product">The product data to be created.</param>
+            <returns>Returns the created product with a 201 status code.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.ProductController.DeleteProductAsync(System.Guid)">
+            <summary>
+            Deletes a product from the system by its unique identifier.
+            </summary>
+            <param name="productId">The unique identifier of the product to delete.</param>
+            <returns>Returns a 204 status code if the deletion is successful.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.ProductController.GetProductByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a product by its unique identifier.
+            </summary>
+            <param name="productId">The unique identifier of the product to retrieve.</param>
+            <returns>Returns the product if found, otherwise returns a 404 Not Found status code.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.ProductController.GetProductByNameAsync(System.String)">
+            <summary>
+            Retrieves a product by its name.
+            </summary>
+            <param name="productName">The name of the product to retrieve.</param>
+            <returns>Returns the product if found, otherwise returns a 404 Not Found status code.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Controllers.ProductController.GetProducts">
+            <summary>
+            Retrieves a list of all products.
+            </summary>
+            <returns>Returns a list of products.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Data.AppDbContext">
+            <summary>
+            Represents the application's database context, including the Identity and business models.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Data.AppDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{PriceNegotiationApp.Data.AppDbContext})">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Data.AppDbContext"/> class.
+            </summary>
+            <param name="options">The options to configure the database context.</param>
+        </member>
+        <member name="P:PriceNegotiationApp.Data.AppDbContext.Products">
+            <summary>
+            Gets or sets the collection of <see cref="T:PriceNegotiationApp.Models.Product"/> entities.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Data.AppDbContext.Negotiations">
+            <summary>
+            Gets or sets the collection of <see cref="T:PriceNegotiationApp.Models.Negotiation"/> entities.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Data.AppDbContext.PriceProposals">
+            <summary>
+            Gets or sets the collection of <see cref="T:PriceNegotiationApp.Models.PriceProposal"/> entities.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.CreatePriceProposalDto">
+            <summary>
+            Data transfer object for creating a new price proposal.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.CreatePriceProposalDto.NegotiationId">
+            <summary>
+            The unique identifier of the negotiation associated with the price proposal.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.CreatePriceProposalDto.ProposedPrice">
+            <summary>
+            The proposed price for the negotiation.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.CreateProductDto">
+            <summary>
+            Data transfer object for creating a new product.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.CreateProductDto.Name">
+            <summary>
+            The name of the product.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.CreateProductDto.Price">
+            <summary>
+            The price of the product.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.LoginDto">
+            <summary>
+            Data transfer object for logging in a user.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.LoginDto.Email">
+            <summary>
+            The email address of the user for login.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.LoginDto.Password">
+            <summary>
+            The password of the user for login.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.NegotiationDto">
+            <summary>
+            Data transfer object representing the details of a negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.NegotiationDto.Id">
+            <summary>
+            The unique identifier of the negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.NegotiationDto.ProductId">
+            <summary>
+            The identifier of the associated product in the negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.NegotiationDto.Status">
+            <summary>
+            The current status of the negotiation (e.g., Pending, Approved, Rejected).
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.PriceProposalDto">
+            <summary>
+            Data transfer object representing a price proposal in a negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.PriceProposalDto.Id">
+            <summary>
+            The unique identifier of the price proposal.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.PriceProposalDto.NegotiationId">
+            <summary>
+            The identifier of the associated negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.PriceProposalDto.ProposedAt">
+            <summary>
+            The timestamp when the price proposal was made.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.PriceProposalDto.Status">
+            <summary>
+            The status of the price proposal (e.g., Pending, Accepted, Rejected).
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.PriceProposalDto.ProposedPrice">
+            <summary>
+            The price proposed in the negotiation.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.ProductDto">
+            <summary>
+            Data transfer object representing a product.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.ProductDto.Id">
+            <summary>
+            The unique identifier of the product.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.ProductDto.Name">
+            <summary>
+            The name of the product.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.ProductDto.Price">
+            <summary>
+            The price of the product.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.RegisterDto">
+            <summary>
+            Data transfer object for user registration.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.RegisterDto.FullName">
+            <summary>
+            The full name of the user. This is a required field.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.RegisterDto.Email">
+            <summary>
+            The email address of the user. This is a required field and must be a valid email format.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.RegisterDto.Password">
+            <summary>
+            The password for the user account. This is a required field.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.DTOs.StartNegotiationDto">
+            <summary>
+            Data transfer object for starting a new negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.StartNegotiationDto.ProductId">
+            <summary>
+            The unique identifier of the product involved in the negotiation. 
+            Either ProductId or ProductName must be provided to start a negotiation.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.DTOs.StartNegotiationDto.ProductName">
+            <summary>
+            The name of the product involved in the negotiation. 
+            Either ProductId or ProductName must be provided to start a negotiation.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Enums.NegotiationStatus">
+            <summary>
+            Represents the status of a negotiation in the process.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.NegotiationStatus.Pending">
+            <summary>
+            The negotiation is still pending and has not been resolved.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.NegotiationStatus.Approved">
+            <summary>
+            The negotiation has been approved and is completed.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.NegotiationStatus.Rejected">
+            <summary>
+            The negotiation has been rejected.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.NegotiationStatus.Cancelled">
+            <summary>
+            The negotiation has been cancelled due to inactivity or other reasons.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Enums.ProposalStatus">
+            <summary>
+            Represents the status of a price proposal in the negotiation process.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.ProposalStatus.Pending">
+            <summary>
+            The proposal is still pending and has not been accepted or rejected.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.ProposalStatus.Accepted">
+            <summary>
+            The proposal has been accepted.
+            </summary>
+        </member>
+        <member name="F:PriceNegotiationApp.Enums.ProposalStatus.Rejected">
+            <summary>
+            The proposal has been rejected.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:PriceNegotiationApp.Models.ApplicationUser">
+            <summary>
+            Represents an application user in the system.
+            Inherits from <see cref="T:Microsoft.AspNetCore.Identity.IdentityUser"/> to include authentication-related properties.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.ApplicationUser.Fullname">
+            <summary>
+            Gets or sets the full name of the user.
+            This property is required and has a maximum length of 50 characters.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Models.LoginModel">
+            <summary>
+            Represents the model used for user login.
+            Contains the required credentials for user authentication.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.LoginModel.Email">
+            <summary>
+            Gets or sets the email of the user.
+            This property is required and must be a valid email address.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.LoginModel.Password">
+            <summary>
+            Gets or sets the password of the user.
+            This property is required.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Models.Negotiation">
+            <summary>
+            Represents a negotiation between parties over the price of a product.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Negotiation.Id">
+            <summary>
+            Gets or sets the unique identifier for the negotiation.
+            This field is required and is of type GUID.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Negotiation.ProductId">
+            <summary>
+            Gets or sets the identifier of the product being negotiated.
+            This field is required and is of type GUID.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Negotiation.Product">
+            <summary>
+            Gets or sets the product being negotiated. 
+            This is a navigation property and will be populated based on the 'ProductId'.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Negotiation.PriceProposals">
+            <summary>
+            Gets or sets the collection of price proposals related to this negotiation.
+            This is a navigation property and is not serialized to JSON.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Negotiation.Status">
+            <summary>
+            Gets or sets the status of the negotiation. 
+            The default value is 'Pending'.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Negotiation.CreatedAt">
+            <summary>
+            Gets or sets the date and time when the negotiation was created.
+            This property is set to the current UTC time by default.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Models.PriceProposal">
+            <summary>
+            Represents a price proposal in the negotiation process.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.PriceProposal.Id">
+            <summary>
+            Gets or sets the unique identifier for the price proposal.
+            This field is required and is of type GUID.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.PriceProposal.NegotiationId">
+            <summary>
+            Gets or sets the negotiation identifier associated with this proposal.
+            This field is required and is of type GUID.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.PriceProposal.Negotiation">
+            <summary>
+            Gets or sets the negotiation associated with this price proposal.
+            This is a navigation property and will be populated based on the 'NegotiationId'.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.PriceProposal.ProposedAt">
+            <summary>
+            Gets or sets the date and time when the price proposal was made.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.PriceProposal.Status">
+            <summary>
+            Gets or sets the status of the price proposal.
+            This property is ignored during JSON serialization.
+            Default is 'Pending'.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.PriceProposal.ProposedPrice">
+            <summary>
+            Gets or sets the proposed price in the price proposal.
+            This field must be greater than 0.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Models.Product">
+            <summary>
+            Represents a product in the system.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Product.Id">
+            <summary>
+            Gets or sets the unique identifier for the product.
+            This field is required and is of type GUID.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Product.Name">
+            <summary>
+            Gets or sets the name of the product.
+            This field is required and has a maximum length of 100 characters.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Product.Price">
+            <summary>
+            Gets or sets the price of the product.
+            This field is required and must be greater than 0.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.Product.Negotiations">
+            <summary>
+            Gets or sets the list of negotiations associated with the product.
+            This property is ignored when serializing to JSON.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Models.RegisterModel">
+            <summary>
+            Represents the data required for user registration.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.RegisterModel.FullName">
+            <summary>
+            Gets or sets the full name of the user.
+            This field is required.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.RegisterModel.Email">
+            <summary>
+            Gets or sets the email address of the user.
+            This field is required and must be a valid email format.
+            </summary>
+        </member>
+        <member name="P:PriceNegotiationApp.Models.RegisterModel.Password">
+            <summary>
+            Gets or sets the password for the user.
+            This field is required.
+            </summary>
+        </member>
+        <member name="T:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl">
+            <summary>
+            Repository implementation for managing negotiations in the database.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.#ctor(PriceNegotiationApp.Data.AppDbContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl"/> class.
+            </summary>
+            <param name="dbContext">The <see cref="T:PriceNegotiationApp.Data.AppDbContext"/> instance to interact with the database.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.StartNegotiationAsync(PriceNegotiationApp.Models.Negotiation)">
+            <summary>
+            Starts a new negotiation if it doesn't already exist.
+            </summary>
+            <param name="negotiation">The negotiation to start.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation already exists.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.GetNegotiationWithProposalsAsync(System.Guid)">
+            <summary>
+            Retrieves a negotiation along with its price proposals.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the negotiation, or null if not found.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.GetPriceProposalsListAsync(System.Guid)">
+            <summary>
+            Retrieves a list of price proposals for a given negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains a list of price proposals.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.GetNegotiationStatusAsync(System.Guid)">
+            <summary>
+            Retrieves the status of a negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the negotiation status.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation is not found.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.UpdateNegotiationAsync(PriceNegotiationApp.Models.Negotiation)">
+            <summary>
+            Updates the negotiation in the database.
+            </summary>
+            <param name="negotiation">The negotiation with updated data.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.GetNegotiationByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a negotiation by its unique identifier.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the negotiation, or throws an exception if not found.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation is not found.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.NegotiationRepositoryImpl.DeleteNegotiationAsync(System.Guid)">
+            <summary>
+            Deletes a negotiation from the database.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation to delete.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation is not found.</exception>
+        </member>
+        <member name="T:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl">
+            <summary>
+            Repository implementation for managing products in the database.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl.#ctor(PriceNegotiationApp.Data.AppDbContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl"/> class.
+            </summary>
+            <param name="context">The <see cref="T:PriceNegotiationApp.Data.AppDbContext"/> instance to interact with the database.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl.GetProductByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a product by its unique identifier.
+            </summary>
+            <param name="productId">The unique identifier of the product.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the product if found, otherwise null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl.GetProductByNameAsync(System.String)">
+            <summary>
+            Retrieves a product by its name.
+            </summary>
+            <param name="name">The name of the product.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the product if found, otherwise null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl.GetProductsAsync">
+            <summary>
+            Retrieves all products from the database.
+            </summary>
+            <returns>A task that represents the asynchronous operation. The task result contains a list of products.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl.CreateProductAsync(PriceNegotiationApp.Models.Product)">
+            <summary>
+            Creates a new product and saves it to the database.
+            </summary>
+            <param name="product">The product to be created.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the created product.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Impl.ProductRepositoryImpl.DeleteProductAsync(System.Guid)">
+            <summary>
+            Deletes a product by its unique identifier.
+            </summary>
+            <param name="productId">The unique identifier of the product to be deleted.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository">
+            <summary>
+            Interface for handling operations related to negotiations in the repository.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.StartNegotiationAsync(PriceNegotiationApp.Models.Negotiation)">
+            <summary>
+            Starts a new negotiation and saves it to the repository.
+            </summary>
+            <param name="negotiation">The negotiation details to be started.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.GetNegotiationWithProposalsAsync(System.Guid)">
+            <summary>
+            Retrieves a negotiation by its identifier, including any associated price proposals.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>The negotiation if found, including its proposals; otherwise, null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.GetPriceProposalsListAsync(System.Guid)">
+            <summary>
+            Retrieves a list of price proposals associated with a negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A list of price proposals for the specified negotiation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.GetNegotiationStatusAsync(System.Guid)">
+            <summary>
+            Retrieves the status of a negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>The status of the negotiation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.UpdateNegotiationAsync(PriceNegotiationApp.Models.Negotiation)">
+            <summary>
+            Updates an existing negotiation in the repository.
+            </summary>
+            <param name="negotiation">The updated negotiation details.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.GetNegotiationByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a negotiation by its unique identifier.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>The negotiation if found, otherwise null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository.DeleteNegotiationAsync(System.Guid)">
+            <summary>
+            Deletes a negotiation from the repository.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation to be deleted.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Repositories.Interfaces.IProductRepository">
+            <summary>
+            Interface for handling operations related to products in the repository.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.IProductRepository.GetProductByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a product by its unique identifier.
+            </summary>
+            <param name="productId">The unique identifier of the product.</param>
+            <returns>The product if found, otherwise null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.IProductRepository.GetProductByNameAsync(System.String)">
+            <summary>
+            Retrieves a product by its name.
+            </summary>
+            <param name="name">The name of the product.</param>
+            <returns>The product if found, otherwise null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.IProductRepository.GetProductsAsync">
+            <summary>
+            Retrieves all products.
+            </summary>
+            <returns>A list of all products.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.IProductRepository.CreateProductAsync(PriceNegotiationApp.Models.Product)">
+            <summary>
+            Creates a new product in the database.
+            </summary>
+            <param name="product">The product details to be created.</param>
+            <returns>The created product with the assigned identifier.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Repositories.Interfaces.IProductRepository.DeleteProductAsync(System.Guid)">
+            <summary>
+            Deletes a product by its unique identifier.
+            </summary>
+            <param name="productId">The unique identifier of the product to be deleted.</param>
+        </member>
+        <member name="T:PriceNegotiationApp.Services.Impl.AuthServiceImpl">
+            <summary>
+            Implements authentication services including user registration and login.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.AuthServiceImpl.#ctor(Microsoft.AspNetCore.Identity.UserManager{PriceNegotiationApp.Models.ApplicationUser},Microsoft.AspNetCore.Identity.SignInManager{PriceNegotiationApp.Models.ApplicationUser},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Services.Impl.AuthServiceImpl"/> class.
+            </summary>
+            <param name="userManager">User manager for handling user creation and management.</param>
+            <param name="signInManager">Sign-in manager for handling user authentication.</param>
+            <param name="configuration">Application configuration for JWT settings.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.AuthServiceImpl.RegisterAsync(PriceNegotiationApp.DTOs.RegisterDto)">
+            <summary>
+            Registers a new user in the system.
+            </summary>
+            <param name="registerDto">The registration details of the user.</param>
+            <returns>The result of the user creation process.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.AuthServiceImpl.LoginAsync(PriceNegotiationApp.DTOs.LoginDto)">
+            <summary>
+            Logs in a user and generates a JWT token for authentication.
+            </summary>
+            <param name="loginDto">The login credentials of the user.</param>
+            <returns>A JWT token if the login is successful, or null if login fails.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.AuthServiceImpl.GenerateJwtToken(PriceNegotiationApp.Models.ApplicationUser)">
+            <summary>
+            Generates a JWT token for the logged-in user.
+            </summary>
+            <param name="user">The user for whom the token will be generated.</param>
+            <returns>The JWT token for the user.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Services.Impl.NegotiationService">
+            <summary>
+            Service responsible for managing price negotiations.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.#ctor(PriceNegotiationApp.Repositories.Interfaces.INegotiationRepository,PriceNegotiationApp.Repositories.Interfaces.IProductRepository,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Services.Impl.NegotiationService"/> class.
+            </summary>
+            <param name="negotiationRepository">The negotiation repository interface.</param>
+            <param name="productRepository">The product repository interface.</param>
+            <param name="mapper">The AutoMapper instance used for object mapping.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.StartNegotiationAsync(PriceNegotiationApp.DTOs.StartNegotiationDto)">
+            <summary>
+            Starts a negotiation by ensuring that either ProductId or ProductName is provided.
+            </summary>
+            <param name="negotiationDto">The negotiation data transfer object.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if ProductId and ProductName are incompatible.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.ProposePriceAsync(PriceNegotiationApp.DTOs.CreatePriceProposalDto,System.Guid)">
+            <summary>
+            Proposes a new price for a negotiation.
+            </summary>
+            <param name="proposalDto">The price proposal data transfer object.</param>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation is not active or the proposal is invalid.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.AcceptNegotiationAsync(System.Guid)">
+            <summary>
+            Accepts the most recent price proposal and marks the negotiation as approved.
+            </summary>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation does not exist or is already resolved.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.RejectNegotiationAsync(System.Guid)">
+            <summary>
+            Rejects the most recent price proposal and marks the negotiation as rejected.
+            </summary>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation does not exist or is already resolved.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.GetStatusAsync(System.Guid)">
+            <summary>
+            Retrieves the current status of a negotiation.
+            </summary>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+            <returns>The status of the negotiation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.GetProposalsAsync(System.Guid)">
+            <summary>
+            Retrieves all price proposals for a specific negotiation.
+            </summary>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+            <returns>A list of price proposals for the negotiation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.GetNegotiationByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a negotiation by its identifier.
+            </summary>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+            <returns>The negotiation details.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.NegotiationService.DeleteNegotiationAsync(System.Guid)">
+            <summary>
+            Deletes a negotiation by its identifier.
+            </summary>
+            <param name="negotiationId">The identifier of the negotiation.</param>
+        </member>
+        <member name="T:PriceNegotiationApp.Services.Impl.ProductService">
+            <summary>
+            Service implementation for managing product-related operations.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.ProductService.#ctor(PriceNegotiationApp.Repositories.Interfaces.IProductRepository,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PriceNegotiationApp.Services.Impl.ProductService"/> class.
+            </summary>
+            <param name="productRepository">The product repository.</param>
+            <param name="mapper">The AutoMapper instance.</param>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.ProductService.CreateProductAsync(PriceNegotiationApp.DTOs.CreateProductDto)">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.ProductService.DeleteProductAsync(System.Guid)">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.ProductService.GetProductByIdAsync(System.Guid)">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.ProductService.GetProductByNameAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Impl.ProductService.GetProductsAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:PriceNegotiationApp.Services.Interfaces.IAuthService">
+            <summary>
+            Service for handling user authentication and registration.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IAuthService.LoginAsync(PriceNegotiationApp.DTOs.LoginDto)">
+            <summary>
+            Attempts to log in a user with the provided credentials.
+            </summary>
+            <param name="loginDto">The login credentials (email and password).</param>
+            <returns>A JWT token string if login is successful; otherwise, null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IAuthService.RegisterAsync(PriceNegotiationApp.DTOs.RegisterDto)">
+            <summary>
+            Registers a new user with the provided registration data.
+            </summary>
+            <param name="registerDto">The registration details (full name, email, password).</param>
+            <returns>An IdentityResult indicating success or failure of the registration.</returns>
+        </member>
+        <member name="T:PriceNegotiationApp.Services.Interfaces.INegotiationService">
+            <summary>
+            Interface for managing negotiations.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.INegotiationService.StartNegotiationAsync(PriceNegotiationApp.DTOs.StartNegotiationDto)">
+            <summary>
+            Starts a new negotiation for a product.
+            </summary>
+            <param name="negotiationDto">The negotiation details.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.INegotiationService.ProposePriceAsync(PriceNegotiationApp.DTOs.CreatePriceProposalDto,System.Guid)">
+            <summary>
+            Proposes a new price for an ongoing negotiation.
+            </summary>
+            <param name="proposalDto">The price proposal details.</param>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation does not exist or is no longer active.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.INegotiationService.AcceptNegotiationAsync(System.Guid)">
+            <summary>
+            Accepts the latest price proposal in the negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation does not exist or is already resolved.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.INegotiationService.RejectNegotiationAsync(System.Guid)">
+            <summary>
+            Rejects the latest price proposal in the negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation does not exist or is already resolved.</exception>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.INegotiationService.GetNegotiationByIdAsync(System.Guid)">
+            <summary>
+            Gets the details of a negotiation by its identifier.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task representing the asynchronous operation. The task result contains the negotiation details.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.INegotiationService.DeleteNegotiationAsync(System.Guid)">
+            <summary>
+            Deletes a negotiation.
+            </summary>
+            <param name="negotiationId">The unique identifier of the negotiation.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the negotiation does not exist.</exception>
+        </member>
+        <member name="T:PriceNegotiationApp.Services.Interfaces.IProductService">
+            <summary>
+            Service for managing products and product-related operations.
+            </summary>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IProductService.GetProductByIdAsync(System.Guid)">
+            <summary>
+            Retrieves a product by its unique identifier.
+            </summary>
+            <param name="productId">The ID of the product to retrieve.</param>
+            <returns>The product DTO if found; otherwise, null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IProductService.GetProductByNameAsync(System.String)">
+            <summary>
+            Retrieves a product by its name.
+            </summary>
+            <param name="name">The name of the product.</param>
+            <returns>The product DTO if found; otherwise, null.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IProductService.GetProductsAsync">
+            <summary>
+            Retrieves all products.
+            </summary>
+            <returns>A list of all product DTOs.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IProductService.CreateProductAsync(PriceNegotiationApp.DTOs.CreateProductDto)">
+            <summary>
+            Creates a new product based on the provided product DTO.
+            </summary>
+            <param name="productDto">The data for the product to create.</param>
+            <returns>The created product DTO.</returns>
+        </member>
+        <member name="M:PriceNegotiationApp.Services.Interfaces.IProductService.DeleteProductAsync(System.Guid)">
+            <summary>
+            Deletes a product with the specified ID.
+            </summary>
+            <param name="productId">The ID of the product to delete.</param>
+        </member>
+    </members>
+</doc>
